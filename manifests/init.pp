@@ -6,11 +6,11 @@ define linked_dotfile($file = $title, $source) {
   }
 }
 
-define dotfiles($repo = $title) {
+define dotfiles($repo = $title, $excludes = [], $includes = []) {
   $dotfiles_dir = "${boxen::config::srcdir}/$repo"
   repository { $dotfiles_dir: source => $repo }
 
-  $dotfile_names = files_in($dotfiles_dir)
+  $dotfile_names = files_in($dotfiles_dir, $excludes, $includes)
   linked_dotfile { $dotfile_names:
     source => $dotfiles_dir,
     require => Repository[$dotfiles_dir]
